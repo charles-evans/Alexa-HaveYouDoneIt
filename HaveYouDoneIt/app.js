@@ -24,6 +24,8 @@ const dateformat = 'YYYYMMDD';
 
 const timeformat = 'HHmmss';
 
+const spokenTimeFormat = 'h:mm a';
+
 var alexaContext;
 
 process.TZ = 'America/Chicago';
@@ -148,8 +150,6 @@ var addLog = function (self, callback) {
         }
     });
 }
-
-
 exports.handler = function (event, context, callback) {
 
     if (event != null) {
@@ -172,15 +172,15 @@ exports.handler = function (event, context, callback) {
                     var hours = Math.floor(duration.asHours());
 
                     var dayString;
-                    if (data.date() == currentTime.date())
+                    if (data.tz('America/Chicago').date() == currentTime.tz('America/Chicago').date())
                         dayString = "today";
                     else
                         dayString = "yesterday";
 
                     if (hours < 4)
-                        context.emit(':tell', 'Mojo had his pill less than 4 hours ago at ' + data.tz('America/Chicago').format('h:mm a') + '. Unless you want to put him in a coma, I suggest you do not give him another');
+                        context.emit(':tell', 'Mojo had his pill less than 4 hours ago at ' + data.tz('America/Chicago').format(spokenTimeFormat) + '. Unless you want to put him in a coma, I suggest you do not give him another');
                     else {
-                        var responseString = 'Mojo last had his pill ' + hours + ' hours ago ' + dayString + ' at ' + data.tz('America/Chicago').format('H:mm a');
+                        var responseString = 'Mojo last had his pill ' + hours + ' hours ago ' + dayString + ' at ' + data.tz('America/Chicago').format(spokenTimeFormat);
                         context.emit(':ask', responseString + '. Would you like me to log that you gave him his pill now?', 'Say yes to log that you just gave Mojo his pill.');
                     }
                 }
@@ -224,15 +224,15 @@ exports.handler = function (event, context, callback) {
                     var hours = Math.floor(duration.asHours());
 
                     var dayString;
-                    if (data.date() == currentTime.date())
+                    if (data.tz('America/Chicago').date() == currentTime.tz('America/Chicago').date())
                         dayString = "today";
                     else
                         dayString = "yesterday";
 
                     if (hours < 4)
-                        context.emit(':tell', 'Mojo had his pill less than 4 hours ago at ' + data.tz('America/Chicago').format('h:mm a') + '. Unless you want to put him in a coma, I suggest you do not give him another');
+                        context.emit(':tell', 'Mojo had his pill less than 4 hours ago at ' + data.tz('America/Chicago').format(spokenTimeFormat) + '. Unless you want to put him in a coma, I suggest you do not give him another');
                     else {
-                        var responseString = 'Mojo last had his pill ' + hours + ' hours ago ' + dayString + ' at ' + data.tz('America/Chicago').format('H:mm a');
+                        var responseString = 'Mojo last had his pill ' + hours + ' hours ago ' + dayString + ' at ' + data.tz('America/Chicago').format(spokenTimeFormat);
                         context.emit(':ask', responseString + '. Would you like me to log that you gave him his pill now?', 'Say yes to log that you just gave Mojo his pill.');
                     }
                 }
@@ -261,7 +261,7 @@ exports.handler = function (event, context, callback) {
     //getLastTimePillTaken(this, function (context, error, data) {
     //    if (error == true) {
     //        var responseString = 'Mojo did not have a pill in the last two days.  Ooops!';
-    //        console.log(responseString + '. Would you like me to log that you gave him his pill now?', 'Say yes to log that you just gave Mojo his pill.');
+    //        console.log( responseString + '. Would you like me to log that you gave him his pill now?', 'Say yes to log that you just gave Mojo his pill.');
     //    }
     //    else {
     //        var currentTime = new moment();
@@ -269,7 +269,7 @@ exports.handler = function (event, context, callback) {
     //        var hours = Math.floor(duration.asHours());
 
     //        var dayString;
-    //        if (data.date() == currentTime.date())
+    //        if (data.tz('America/Chicago').date() == currentTime.tz('America/Chicago').date())
     //            dayString = "today";
     //        else
     //            dayString = "yesterday";
